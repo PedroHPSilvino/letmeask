@@ -1,15 +1,15 @@
 import { FormEvent, useState } from 'react'
 import { useHistory } from 'react-router-dom'
 
-import { useAuth } from '../hooks/useAuth'
-import { Button } from '../components/Button'
+import { useAuth } from '../../hooks/useAuth'
+import { Button } from '../../components/Button'
+import { database } from '../../services/firebase'
 
-import illustrationImg from '../assets/images/illustration.svg'
-import logoImg from '../assets/images/logo.svg'
-import googleIconImg from '../assets/images/google-icon.svg'
+import illustrationImg from '../../assets/images/illustration.svg'
+import logoImg from '../../assets/images/logo.svg'
+import googleIconImg from '../../assets/images/google-icon.svg'
 
-import '../styles/auth.scss'
-import { database } from '../services/firebase'
+import './styles.scss'
 
 export function Home() {
     const history = useHistory();
@@ -36,6 +36,11 @@ export function Home() {
         if (!roomRef.exists()) {
             alert('Room not found')
             return
+        }
+
+        if (roomRef.val().endedAt) {
+            alert('Room already closed');
+            return;
         }
 
         history.push(`/rooms/${roomCode}`)
